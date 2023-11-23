@@ -1,22 +1,25 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule, Validator, Validators} from "@angular/forms";
+import {CompteurDeCalculComponent} from "../compteur-de-calcul/compteur-de-calcul.component";
+
 
 @Component({
   selector: 'app-calculatrice',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CompteurDeCalculComponent],
 
   templateUrl: './calculatrice.component.html',
   styleUrl: './calculatrice.component.css'
 })
 export class CalculatriceComponent {
-
+  @ViewChild('compteur') compteur!: CompteurDeCalculComponent;
   public calculatrice: FormGroup;
   public operand1: FormControl = new FormControl<number>(0,[Validators.min(1),Validators.required]);
   public operand2: FormControl = new FormControl<number>(0,[Validators.min(1),Validators.required])
   public operateur: FormControl = new FormControl<string|null>('+',Validators.required)
   public resultat: number = 0;
+
 
   constructor() {
 
@@ -30,6 +33,7 @@ export class CalculatriceComponent {
   calcul(): void {
 
     console.log(this.operateur.value)
+    this.compteur.compte();
 
     switch (this.operateur.value){
       case "1":
